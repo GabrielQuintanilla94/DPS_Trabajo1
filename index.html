@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Tu MiniSuper - JS Edition</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1> Tienda Tu MiniSuper</h1>
+    </header>
+
+    <main id="vista-tienda" class="contenedor-principal">
+        <section class="seccion-productos">
+            <h2>Productos Disponibles</h2>
+            <div id="lista-productos" class="grid-productos">
+                </div>
+        </section>
+
+        <aside class="seccion-carrito">
+            <h2>Tu Carrito</h2>
+            <div id="items-carrito" class="items-carrito">
+                <p>El carrito está vacío</p>
+            </div>
+            <div class="resumen-carrito">
+                <p>Total: $<span id="total-carrito">0.00</span></p>
+                <button onclick="confirmarCompra()" class="btn-pagar">Generar Factura</button>
+            </div>
+        </aside>
+    </main>
+
+    <section id="vista-factura" class="contenedor-factura oculto">
+        <div class="factura-papel">
+            <h2> Factura de Compra</h2>
+            <p><strong>Fecha:</strong> <span id="fecha-factura"></span></p>
+            <hr>
+            <table id="tabla-factura">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cant.</th>
+                        <th>Precio Unit.</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpo-factura"></tbody>
+            </table>
+            <hr>
+            <div class="totales-factura">
+                <p>Subtotal: $<span id="factura-subtotal">0.00</span></p>
+                <p>IVA (13%): $<span id="factura-impuestos">0.00</span></p>
+                <h3>Total a Pagar: $<span id="factura-total">0.00</span></h3>
+            </div>
+            <button onclick="reiniciarTienda()" class="btn-seguir">Seguir Comprando</button>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>
