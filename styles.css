@@ -343,3 +343,44 @@ th {
         top: 85px;
     }
 }
+
+/* --- TEMA OSCURO --- */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+body.dark-mode header {
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .card-producto, 
+body.dark-mode .panel-carrito, 
+body.dark-mode .factura-papel {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .card-info h3, 
+body.dark-mode .precio,
+body.dark-mode .resumen-carrito strong {
+    color: #ffffff;
+}
+
+body.dark-mode input[type="text"],
+body.dark-mode input[type="number"] {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+body.dark-mode .btn-filtro {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode .btn-filtro:hover {
+    background-color: #555;
+}

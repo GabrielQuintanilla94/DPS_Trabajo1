@@ -1,7 +1,6 @@
 // --- 1. CLASES Y MODELO DE DATOS ---
 
 class Producto {
-    
     constructor(id, nombre, precio, imagen, stock, categoria) {
         this.id = id;
         this.nombre = nombre;
@@ -11,7 +10,6 @@ class Producto {
         this.categoria = categoria;
     }
 }
-
 
 class Carrito {
     constructor() {
@@ -50,7 +48,6 @@ class Carrito {
     }
 }
 
-
 const inventarioDB = [
     // Abarrotes
     new Producto(1, "Arroz San Pedro 1lb", 1.25, "https://bitworks-multimedia.superselectos.com/api/selectos/multimedia/89244c1f-d9da-4691-b9d4-ad4e58876e73/content", 20, "Abarrotes"),
@@ -76,35 +73,42 @@ document.addEventListener('DOMContentLoaded', () => {
     renderizarProductos(); 
 });
 
-
 function toggleCarrito() {
     const panel = document.getElementById('panel-carrito');
     panel.classList.toggle('oculto');
 }
 
+// Variables para mantener el estado de búsqueda y filtros
+let categoriaActual = 'Todas';
+
 // Función para filtrar y mostrar productos
-function renderizarProductos(categoriaFiltro = 'Todas') {
+function renderizarProductos(categoriaFiltro = categoriaActual, terminoBusqueda = document.getElementById('buscador') ? document.getElementById('buscador').value : '') {
+    categoriaActual = categoriaFiltro; // Guardar la categoría seleccionada
     const contenedor = document.getElementById('lista-productos');
     contenedor.innerHTML = '';
 
-  
-    let productosAMostrar = inventarioDB;
-    if (categoriaFiltro !== 'Todas') {
-        productosAMostrar = inventarioDB.filter(prod => prod.categoria === categoriaFiltro);
+    // Filtrar por categoría y búsqueda de texto
+    let productosAMostrar = inventarioDB.filter(prod => {
+        const coincideCategoria = categoriaActual === 'Todas' || prod.categoria === categoriaActual;
+        const coincideTexto = prod.nombre.toLowerCase().includes(terminoBusqueda.toLowerCase());
+        return coincideCategoria && coincideTexto;
+    });
+
+    if (productosAMostrar.length === 0) {
+        contenedor.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #666; margin-top: 20px;">No se encontraron productos con ese nombre.</p>';
+        return;
     }
 
-    
     productosAMostrar.forEach(prod => {
         const card = document.createElement('div');
         card.classList.add('card-producto');
 
         const stockHTML = prod.stock > 0
             ? `<p class="stock-info">Disponibles: ${prod.stock}</p>`
-            : `<p class="sin-stock">AGOTADO</p>`;
+            : `<p class="sin-stock" style="color:red; font-weight:bold;">AGOTADO</p>`;
 
         const btnDisabled = prod.stock === 0 ? 'disabled' : '';
 
-        
         card.innerHTML = `
             <img src="${prod.imagen}" alt="${prod.nombre}">
             
@@ -124,6 +128,12 @@ function renderizarProductos(categoriaFiltro = 'Todas') {
         `;
         contenedor.appendChild(card);
     });
+}
+
+// Función ejecutada por el input del buscador
+function manejarBusqueda() {
+    const termino = document.getElementById('buscador').value;
+    renderizarProductos(categoriaActual, termino);
 }
 
 function manejadorAgregar(id) {
@@ -151,10 +161,8 @@ function renderizarCarrito() {
     const totalSpan = document.getElementById('total-carrito');
     const btnPagar = document.getElementById('btn-pagar');
 
-   
     contenedor.innerHTML = '';
 
-  
     if (miCarrito.items.length === 0) {
         contenedor.innerHTML = '<p>El carrito está vacío</p>';
         btnPagar.disabled = true;
@@ -184,10 +192,8 @@ function renderizarCarrito() {
         btnPagar.style.cursor = 'pointer';
     }
 
-    
     const totales = miCarrito.obtenerTotales();
     totalSpan.innerText = totales.subtotal.toFixed(2);
-    
     
     const totalHeader = document.getElementById('total-header');
     if (totalHeader) totalHeader.innerText = totales.subtotal.toFixed(2);
@@ -202,10 +208,7 @@ function eliminarDelCarrito(index) {
 function confirmarCompra() {
     if (miCarrito.items.length === 0) return alert("El carrito está vacío");
 
-    
     document.getElementById('panel-carrito').classList.add('oculto');
-
-    
     document.getElementById('vista-tienda').classList.add('oculto');
     document.getElementById('vista-factura').classList.remove('oculto');
 
@@ -213,7 +216,6 @@ function confirmarCompra() {
     tbody.innerHTML = '';
 
     miCarrito.items.forEach(item => {
-        
         const productoOriginal = inventarioDB.find(p => p.id === item.id);
         if(productoOriginal) {
             productoOriginal.stock -= item.cantidad;
@@ -244,11 +246,28 @@ function confirmarCompra() {
 function reiniciarTienda() {
     miCarrito.vaciar();
 
-    // Al reiniciar, forzamos que el carrito se renderice vacío
+    // Limpiar el buscador visualmente y en la lógica
+    const inputBuscador = document.getElementById('buscador');
+    if (inputBuscador) inputBuscador.value = '';
+
     renderizarCarrito();
-    // Volvemos a renderizar 'Todas' las categorías para resetear la vista
-    renderizarProductos('Todas');
+    // Volvemos a renderizar 'Todas' las categorías sin texto de búsqueda
+    renderizarProductos('Todas', '');
 
     document.getElementById('vista-factura').classList.add('oculto');
     document.getElementById('vista-tienda').classList.remove('oculto');
+}
+
+// --- FUNCIÓN DE TEMA OSCURO ---
+function toggleTema() {
+    // Alternar la clase 'dark-mode' en el body
+    document.body.classList.toggle('dark-mode');
+    
+    // Cambiar el ícono del botón
+    const btnTema = document.getElementById('btn-tema');
+    if (document.body.classList.contains('dark-mode')) {
+        btnTema.innerText = '☀️'; // Sol cuando está oscuro
+    } else {
+        btnTema.innerText = '🌙'; // Luna cuando está claro
+    }
 }
