@@ -52,10 +52,4 @@ Es el motor lógico de la aplicación. Se divide en dos partes fundamentales:
 
 ---
 
-## 🛠️ Cómo Ejecutar la Aplicación de forma Local
 
-Si deseas correr este proyecto en tu propia computadora:
-
-1. **Clonar el repositorio:**
-   ```bash
-   git clone [https://github.com/TU_USUARIO/TU_REPOSITORIO.git](https://github.com/TU_USUARIO/TU_REPOSITORIO.git)
