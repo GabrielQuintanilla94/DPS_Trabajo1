@@ -11,9 +11,14 @@ body {
 header {
     background: #2c3e50;
     color: white;
-    padding: 1.5rem;
-    text-align: center;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 header h1 {
@@ -21,31 +26,74 @@ header h1 {
     font-size: 2.2rem;
 }
 
+#btn-toggle-carrito {
+    background-color: #f1c40f;
+    color: #2c3e50;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#btn-toggle-carrito:hover {
+    background-color: #f39c12;
+}
+
 /* =========================================
    LAYOUT PRINCIPAL
    ========================================= */
+
 .contenedor-principal {
-    display: flex;
-    gap: 20px;
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.seccion-productos {
-    flex: 3;
+.panel-carrito {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    width: 320px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 200;
+    max-height: 75vh;
+    overflow-y: auto;
+    border: 1px solid #ddd;
 }
 
-/* Panel del carrito pegajoso */
-.seccion-carrito {
-    flex: 1;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    height: fit-content;
-    position: sticky;
-    top: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+.header-carrito {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.header-carrito h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.btn-cerrar {
+    background: transparent;
+    color: #e74c3c;
+    font-size: 1.2rem;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-cerrar:hover {
+    background: #ffeaea;
+    border-radius: 5px;
 }
 
 /* =========================================
@@ -74,7 +122,7 @@ header h1 {
 }
 
 /* =========================================
-   TARJETAS DE PRODUCTOS
+   TARJETAS DE PRODUCTOS (Corregidas)
    ========================================= */
 .grid-productos {
     display: grid;
@@ -90,6 +138,12 @@ header h1 {
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 }
 
 .card-producto:hover {
@@ -99,10 +153,20 @@ header h1 {
 
 .card-producto img {
     width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 5px;
+    height: 160px;
+    object-fit: contain;
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
     margin-bottom: 10px;
+}
+
+
+.card-info {
+    flex-grow: 1;
+}
+
+.card-controles {
+    margin-top: auto;
 }
 
 .precio {
@@ -133,6 +197,8 @@ input[type="number"] {
     border-radius: 4px;
     text-align: center;
     font-size: 1rem;
+    width: 60px;
+    margin-bottom: 10px;
 }
 
 button {
@@ -147,7 +213,6 @@ button {
     color: white;
     padding: 10px 15px;
     width: 100%;
-    margin-top: 12px;
     font-weight: bold;
 }
 
@@ -189,7 +254,7 @@ button {
 /* =========================================
    VISTA DE FACTURA
    ========================================= */
-/* ¡Súper importante para ocultar vistas correctamente! */
+
 .oculto {
     display: none !important;
 }
@@ -262,13 +327,19 @@ th {
     background: #d35400;
 }
 
-/* Responsivo para móviles */
+/* =========================================
+   RESPONSIVO (MÓVILES)
+   ========================================= */
 @media (max-width: 768px) {
     .contenedor-principal {
-        flex-direction: column;
+        padding: 10px;
     }
 
-    .seccion-carrito {
-        position: static;
+    /* Adaptar el panel flotante al tamaño de la pantalla del móvil */
+    .panel-carrito {
+        width: 85%;
+        right: 2.5%;
+        /* Centrado relativo */
+        top: 85px;
     }
 }

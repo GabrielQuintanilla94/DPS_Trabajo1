@@ -1,7 +1,7 @@
 // --- 1. CLASES Y MODELO DE DATOS ---
 
 class Producto {
-    // NUEVO: Añadimos 'categoria' al constructor
+    
     constructor(id, nombre, precio, imagen, stock, categoria) {
         this.id = id;
         this.nombre = nombre;
@@ -12,7 +12,7 @@ class Producto {
     }
 }
 
-// Clase Carrito: REQUERIMIENTO TÉCNICO POO (10%)
+
 class Carrito {
     constructor() {
         this.items = [];
@@ -50,21 +50,21 @@ class Carrito {
     }
 }
 
-// MOCK DATA: Inventario expandido con categorías
+
 const inventarioDB = [
     // Abarrotes
-    new Producto(1, "Arroz San Pedro 1lb", 1.25, "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=200&q=80", 20, "Abarrotes"),
-    new Producto(2, "Frijoles Rojos 1lb", 1.50, "https://images.unsplash.com/photo-1551462147-37885acc36f1?auto=format&fit=crop&w=200&q=80", 15, "Abarrotes"),
+    new Producto(1, "Arroz San Pedro 1lb", 1.25, "https://bitworks-multimedia.superselectos.com/api/selectos/multimedia/89244c1f-d9da-4691-b9d4-ad4e58876e73/content", 20, "Abarrotes"),
+    new Producto(2, "Frijoles Rojos 1lb", 1.50, "https://bitworks-multimedia.superselectos.com/api/selectos/multimedia/c5c28aa6-797b-4151-a424-835a8c937756/content", 15, "Abarrotes"),
     new Producto(3, "Aceite 500ml", 2.00, "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=200&q=80", 8, "Abarrotes"),
 
     // Limpieza
-    new Producto(4, "Jabón Zote", 0.90, "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?auto=format&fit=crop&w=200&q=80", 50, "Limpieza"),
-    new Producto(5, "Detergente en polvo 1kg", 2.50, "https://images.unsplash.com/photo-1584820927498-cafe4c10a4db?auto=format&fit=crop&w=200&q=80", 10, "Limpieza"),
-    new Producto(6, "Desinfectante Lavanda", 1.75, "https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=200&q=80", 12, "Limpieza"),
+    new Producto(4, "Jabón Zote", 0.90, "https://m.media-amazon.com/images/I/41XojCyTsjL._SS400_.jpg", 50, "Limpieza"),
+    new Producto(5, "Detergente en polvo 1kg", 2.50, "https://walmartsv.vtexassets.com/arquivos/ids/488030/44194_01.jpg?v=638576047880100000", 10, "Limpieza"),
+    new Producto(6, "Desinfectante Lavanda", 1.75, "https://walmartsv.vtexassets.com/arquivos/ids/775840/40551_01.jpg?v=638901789244400000", 12, "Limpieza"),
 
     // Lácteos
     new Producto(7, "Leche Entera 1L", 1.40, "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=200&q=80", 15, "Lácteos"),
-    new Producto(8, "Queso Fresco 1lb", 3.00, "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=200&q=80", 5, "Lácteos")
+    new Producto(8, "Queso Fresco 1lb", 3.00, "https://lh5.googleusercontent.com/proxy/kQlWBdbCmEfRZdvinrtaKXbypBHtpXAIRGDeWVbUapWzCtADMWXiaUoVK11Pdr5Jx1xpJFWlXsIhXQ91FeoOlQL8iytJfL0UViPwaAXRIaLc-bMn", 5, "Lácteos")
 ];
 
 // Instancia global del carrito
@@ -73,21 +73,27 @@ const miCarrito = new Carrito();
 // --- 2. FUNCIONES DEL SISTEMA ---
 
 document.addEventListener('DOMContentLoaded', () => {
-    renderizarProductos(); // Por defecto cargará 'Todas'
+    renderizarProductos(); 
 });
 
-// NUEVO: Agregamos un parámetro por defecto 'Todas' para filtrar
+
+function toggleCarrito() {
+    const panel = document.getElementById('panel-carrito');
+    panel.classList.toggle('oculto');
+}
+
+// Función para filtrar y mostrar productos
 function renderizarProductos(categoriaFiltro = 'Todas') {
     const contenedor = document.getElementById('lista-productos');
     contenedor.innerHTML = '';
 
-    // Filtramos el inventario según el botón que se haya presionado
+  
     let productosAMostrar = inventarioDB;
     if (categoriaFiltro !== 'Todas') {
         productosAMostrar = inventarioDB.filter(prod => prod.categoria === categoriaFiltro);
     }
 
-    // Iteramos sobre el arreglo filtrado
+    
     productosAMostrar.forEach(prod => {
         const card = document.createElement('div');
         card.classList.add('card-producto');
@@ -98,17 +104,23 @@ function renderizarProductos(categoriaFiltro = 'Todas') {
 
         const btnDisabled = prod.stock === 0 ? 'disabled' : '';
 
-        // Agregamos la etiqueta de categoría en el HTML
+        
         card.innerHTML = `
             <img src="${prod.imagen}" alt="${prod.nombre}">
-            <span style="font-size: 0.7rem; color: #888; text-transform: uppercase; display: block; margin-top: 5px;">${prod.categoria}</span>
-            <h3 style="margin: 5px 0;">${prod.nombre}</h3>
-            <p class="precio">$${prod.precio.toFixed(2)}</p>
-            ${stockHTML}
-            <input type="number" id="cant-${prod.id}" value="1" min="1" max="${prod.stock}" style="width:50px">
-            <button class="btn-agregar" onclick="manejadorAgregar(${prod.id})" ${btnDisabled}>
-                Agregar
-            </button>
+            
+            <div class="card-info">
+                <span style="font-size: 0.7rem; color: #888; text-transform: uppercase; display: block; margin-top: 5px;">${prod.categoria}</span>
+                <h3 style="margin: 5px 0;">${prod.nombre}</h3>
+                <p class="precio">$${prod.precio.toFixed(2)}</p>
+                ${stockHTML}
+            </div>
+
+            <div class="card-controles">
+                <input type="number" id="cant-${prod.id}" value="1" min="1" max="${prod.stock}">
+                <button class="btn-agregar" onclick="manejadorAgregar(${prod.id})" ${btnDisabled}>
+                    Agregar
+                </button>
+            </div>
         `;
         contenedor.appendChild(card);
     });
@@ -139,10 +151,10 @@ function renderizarCarrito() {
     const totalSpan = document.getElementById('total-carrito');
     const btnPagar = document.getElementById('btn-pagar');
 
-    // 1. Limpiar carrito visual
+   
     contenedor.innerHTML = '';
 
-    // 2. Dibujar productos o mensaje vacío
+  
     if (miCarrito.items.length === 0) {
         contenedor.innerHTML = '<p>El carrito está vacío</p>';
         btnPagar.disabled = true;
@@ -172,9 +184,13 @@ function renderizarCarrito() {
         btnPagar.style.cursor = 'pointer';
     }
 
-    // 3. Actualizar el total visual
+    
     const totales = miCarrito.obtenerTotales();
     totalSpan.innerText = totales.subtotal.toFixed(2);
+    
+    
+    const totalHeader = document.getElementById('total-header');
+    if (totalHeader) totalHeader.innerText = totales.subtotal.toFixed(2);
 }
 
 function eliminarDelCarrito(index) {
@@ -186,6 +202,10 @@ function eliminarDelCarrito(index) {
 function confirmarCompra() {
     if (miCarrito.items.length === 0) return alert("El carrito está vacío");
 
+    
+    document.getElementById('panel-carrito').classList.add('oculto');
+
+    
     document.getElementById('vista-tienda').classList.add('oculto');
     document.getElementById('vista-factura').classList.remove('oculto');
 
@@ -193,9 +213,11 @@ function confirmarCompra() {
     tbody.innerHTML = '';
 
     miCarrito.items.forEach(item => {
-        // Actualizar inventario (REQ 14)
+        
         const productoOriginal = inventarioDB.find(p => p.id === item.id);
-        productoOriginal.stock -= item.cantidad;
+        if(productoOriginal) {
+            productoOriginal.stock -= item.cantidad;
+        }
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
