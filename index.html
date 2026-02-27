@@ -11,18 +11,87 @@
 <body>
 
     <header>
-        <h1>🛒 Tienda Tu MiniSuper</h1>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <h1>🛒 Tienda Tu MiniSuper</h1>
+            <span id="usuario-actual" style="font-size: 0.9rem; color: #ecf0f1;"></span>
+        </div>
         <div style="display: flex; gap: 10px; align-items: center;">
-            <button id="btn-tema" onclick="toggleTema()" style="font-size: 1.5rem; background: none; border: none; cursor: pointer;" title="Cambiar Tema">🌙</button>
-        <button id="btn-toggle-carrito" onclick="toggleCarrito()">
-            🛒 $<span id="total-header">0.00</span>
-        </button>
+            <button id="btn-tema" onclick="toggleTema()"
+                style="font-size: 1.5rem; background: none; border: none; cursor: pointer;"
+                title="Cambiar Tema">🌙</button>
+            <button id="btn-logout" onclick="manejarLogout()"
+                style="padding: 8px 15px; background: #d32f2f; color: white; border: none; border-radius: 5px; cursor: pointer;">Cerrar
+                sesión</button>
+            <button id="btn-toggle-carrito" onclick="toggleCarrito()">
+                🛒 $<span id="total-header">0.00</span>
+            </button>
+        </div>
     </header>
 
-    <main id="vista-tienda" class="contenedor-principal">
+    <!-- VISTA DE LOGIN -->
+    <section id="vista-login" class="contenedor-autenticacion">
+        <div class="caja-autenticacion">
+            <h2>🔐 Iniciar Sesión</h2>
+            <form id="form-login" onsubmit="manejarLogin(event)">
+                <div class="grupo-form">
+                    <label for="login-usuario">Usuario:</label>
+                    <input type="text" id="login-usuario" required placeholder="Tu nombre de usuario">
+                </div>
+                <div class="grupo-form">
+                    <label for="login-contraseña">Contraseña:</label>
+                    <input type="password" id="login-contraseña" required placeholder="Tu contraseña">
+                </div>
+                <button type="submit" class="btn-autenticacion">Iniciar Sesión</button>
+            </form>
+            <p style="text-align: center; margin-top: 20px;">
+                ¿No tienes cuenta?
+                <a href="#" onclick="mostrarVistaRegistro(); return false;"
+                    style="color: #2980b9; text-decoration: none; font-weight: bold;">Registrarse aquí</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- VISTA DE REGISTRO -->
+    <section id="vista-registro" class="contenedor-autenticacion oculto">
+        <div class="caja-autenticacion">
+            <h2>📋 Crear Cuenta</h2>
+            <form id="form-registro" onsubmit="manejarRegistro(event)">
+                <div class="grupo-form">
+                    <label for="registro-usuario">Usuario:</label>
+                    <input type="text" id="registro-usuario" required placeholder="Elige tu nombre de usuario">
+                </div>
+                <div class="grupo-form">
+                    <label for="registro-nombre">Nombre Completo:</label>
+                    <input type="text" id="registro-nombre" required placeholder="Tu nombre completo">
+                </div>
+                <div class="grupo-form">
+                    <label for="registro-direccion">Dirección:</label>
+                    <input type="text" id="registro-direccion" required placeholder="Tu dirección de envío">
+                </div>
+                <div class="grupo-form">
+                    <label for="registro-tarjeta">Tarjeta de Débito/Crédito:</label>
+                    <input type="text" id="registro-tarjeta" required placeholder="Número de tarjeta (13-19 dígitos)"
+                        maxlength="19">
+                </div>
+                <div class="grupo-form">
+                    <label for="registro-contraseña">Contraseña:</label>
+                    <input type="password" id="registro-contraseña" required placeholder="Crea una contraseña segura">
+                </div>
+                <button type="submit" class="btn-autenticacion">Crear Cuenta</button>
+            </form>
+            <p style="text-align: center; margin-top: 20px;">
+                ¿Ya tienes cuenta?
+                <a href="#" onclick="mostrarVistaLogin(); return false;"
+                    style="color: #2980b9; text-decoration: none; font-weight: bold;">Inicia sesión aquí</a>
+            </p>
+        </div>
+    </section>
+
+    <main id="vista-tienda" class="contenedor-principal oculto">
 
         <div class="contenedor-buscador" style="text-align: center; margin-bottom: 20px; margin-top: 20px;">
-            <input type="text" id="buscador" placeholder="🔍 Buscar por nombre..." oninput="manejarBusqueda()" style="padding: 10px; width: 80%; max-width: 400px; border-radius: 5px; border: 1px solid #ccc; font-size: 1rem;">
+            <input type="text" id="buscador" placeholder="🔍 Buscar por nombre..." oninput="manejarBusqueda()"
+                style="padding: 10px; width: 80%; max-width: 400px; border-radius: 5px; border: 1px solid #ccc; font-size: 1rem;">
         </div>
 
         <section class="seccion-productos">
@@ -84,6 +153,10 @@
         </div>
     </section>
 
+    <footer class="site-footer">
+        <p>© 2026 Tienda Tu MiniSuper. Todos los derechos reservados.</p>
+        <p>Contáctanos: <a href="mailto:soporte@minisuper.com">soporte@minisuper.com</a></p>
+    </footer>
     <script src="app.js"></script>
 </body>
 

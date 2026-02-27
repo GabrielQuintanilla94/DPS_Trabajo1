@@ -9,7 +9,7 @@ body {
 }
 
 header {
-    background: #2c3e50;
+    background: #1b4332;
     color: white;
     padding: 1.5rem 2rem;
     display: flex;
@@ -27,8 +27,8 @@ header h1 {
 }
 
 #btn-toggle-carrito {
-    background-color: #f1c40f;
-    color: #2c3e50;
+    background-color: #52b788;
+    color: white;
     font-size: 1.2rem;
     font-weight: bold;
     padding: 10px 20px;
@@ -40,7 +40,7 @@ header h1 {
 }
 
 #btn-toggle-carrito:hover {
-    background-color: #f39c12;
+    background-color: #2d6a4f;
 }
 
 /* =========================================
@@ -107,9 +107,9 @@ header h1 {
 }
 
 .btn-filtro {
-    background: #ecf0f1;
-    color: #2c3e50;
-    border: 1px solid #bdc3c7;
+    background: #e8f5e9;
+    color: #1b4332;
+    border: 1px solid #52b788;
     font-weight: bold;
     padding: 8px 15px;
     border-radius: 20px;
@@ -117,7 +117,7 @@ header h1 {
 }
 
 .btn-filtro:hover {
-    background: #34495e;
+    background: #2d6a4f;
     color: white;
 }
 
@@ -172,7 +172,7 @@ header h1 {
 .precio {
     font-size: 1.3rem;
     font-weight: bold;
-    color: #27ae60;
+    color: #40916c;
     margin: 10px 0;
 }
 
@@ -209,7 +209,7 @@ button {
 }
 
 .btn-agregar {
-    background: #27ae60;
+    background: #40916c;
     color: white;
     padding: 10px 15px;
     width: 100%;
@@ -217,7 +217,7 @@ button {
 }
 
 .btn-agregar:hover:not(:disabled) {
-    background: #219150;
+    background: #2d6a4f;
 }
 
 .btn-agregar:disabled {
@@ -238,7 +238,7 @@ button {
 }
 
 .btn-pagar {
-    background: #2980b9;
+    background: #40916c;
     color: white;
     width: 100%;
     padding: 12px;
@@ -248,7 +248,7 @@ button {
 }
 
 .btn-pagar:hover:not(:disabled) {
-    background: #1f6391;
+    background: #2d6a4f;
 }
 
 /* =========================================
@@ -277,7 +277,7 @@ button {
 
 .factura-papel h2 {
     text-align: center;
-    color: #2c3e50;
+    color: #1b4332;
     margin-top: 0;
 }
 
@@ -295,8 +295,8 @@ td {
 }
 
 th {
-    background-color: #f8f9fa;
-    color: #2c3e50;
+    background-color: #e8f5e9;
+    color: #1b4332;
 }
 
 .totales-factura {
@@ -306,7 +306,7 @@ th {
 }
 
 .totales-factura h3 {
-    color: #27ae60;
+    color: #40916c;
     font-size: 1.4rem;
     border-top: 2px solid #eee;
     padding-top: 15px;
@@ -351,19 +351,19 @@ body.dark-mode {
 }
 
 body.dark-mode header {
-    background-color: #1e1e1e;
+    background-color: #0d2818;
     box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
 }
 
-body.dark-mode .card-producto, 
-body.dark-mode .panel-carrito, 
+body.dark-mode .card-producto,
+body.dark-mode .panel-carrito,
 body.dark-mode .factura-papel {
     background-color: #1e1e1e;
     color: #ffffff;
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
 
-body.dark-mode .card-info h3, 
+body.dark-mode .card-info h3,
 body.dark-mode .precio,
 body.dark-mode .resumen-carrito strong {
     color: #ffffff;
@@ -382,5 +382,153 @@ body.dark-mode .btn-filtro {
 }
 
 body.dark-mode .btn-filtro:hover {
-    background-color: #555;
+    background-color: #40916c;
+}
+
+/* =========================================
+   AUTENTICACIÓN (FORMULARIOS LOGIN/REGISTRO)
+   ========================================= */
+
+.contenedor-autenticacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+    padding: 20px;
+}
+
+.caja-autenticacion {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+}
+
+.caja-autenticacion h2 {
+    text-align: center;
+    color: #1b4332;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+.grupo-form {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.grupo-form label {
+    font-weight: bold;
+    color: #1b4332;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.grupo-form input {
+    padding: 12px;
+    border: 2px solid #ecf0f1;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.grupo-form input:focus {
+    outline: none;
+    border-color: #40916c;
+    box-shadow: 0 0 0 3px rgba(64, 145, 108, 0.1);
+}
+
+.btn-autenticacion {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+    color: white;
+    font-weight: bold;
+    font-size: 1.05rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-autenticacion:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(27, 67, 50, 0.3);
+}
+
+.btn-autenticacion:active {
+    transform: translateY(0);
+}
+
+/* Tema oscuro para autenticación */
+body.dark-mode .contenedor-autenticacion {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+body.dark-mode .caja-autenticacion {
+    background-color: #1e1e1e;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .caja-autenticacion h2 {
+    color: #ecf0f1;
+}
+
+body.dark-mode .grupo-form label {
+    color: #ecf0f1;
+}
+
+body.dark-mode .grupo-form input {
+    background-color: #2a2a2a;
+    color: #ecf0f1;
+    border-color: #444;
+}
+
+body.dark-mode .grupo-form input:focus {
+    border-color: #40916c;
+}
+
+/* =========================================
+   RESPONSIVO AUTENTICACIÓN
+   ========================================= */
+
+@media (max-width: 480px) {
+    .caja-autenticacion {
+        padding: 25px;
+    }
+
+    .caja-autenticacion h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .grupo-form input {
+        font-size: 16px;
+        /* Previene zoom en iOS */
+    }
+}
+
+/* FOOTER */
+.site-footer {
+    background: #1b4332;
+    color: #ecf0f1;
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 0.9rem;
+    margin-top: 40px;
+}
+
+.site-footer a {
+    color: #52b788;
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
 }
