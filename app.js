@@ -196,12 +196,12 @@ function mostrarVistaLogin() {
 // Mostrar vistas de usuario autenticado
 function mostrarVistaTienda() {
     document.getElementById('vista-tienda').classList.remove('oculto');
-    // NUEVO: Mostrar el header y el footer cuando hay sesión
+    // Mostrar el header y el footer cuando hay sesión
     document.getElementById('main-header').classList.remove('oculto');
     document.getElementById('main-footer').classList.remove('oculto');
 }
 
-// NUEVO: Ocultar todas las partes de la tienda (para usar en el logout)
+//  Ocultar todas las partes de la tienda (para usar en el logout)
 function ocultarVistaTienda() {
     document.getElementById('vista-tienda').classList.add('oculto');
     document.getElementById('main-header').classList.add('oculto');
@@ -273,7 +273,7 @@ function manejarLogin(event) {
 function manejarLogout() {
     if (confirm('¿Deseas cerrar la sesión?')) {
         cerrarSesion();
-        // NUEVO: Nos aseguramos de ocultar todo lo que pertenece a la tienda
+        //  Nos aseguramos de ocultar todo lo que pertenece a la tienda
         ocultarVistaTienda();
         
         mostrarVistaLogin();
