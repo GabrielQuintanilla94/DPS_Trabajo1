@@ -1,5 +1,3 @@
-
-
 class Usuario {
     constructor(usuario, nombre, direccion, tarjeta, contraseña) {
         this.usuario = usuario;
@@ -128,27 +126,18 @@ function guardarUsuarioActual(usuario) {
 
 // Registrar nuevo usuario
 function registrarUsuario(usuario, nombre, direccion, tarjeta, contraseña) {
-    // Validar que no esté vacío
     if (!usuario || !nombre || !direccion || !tarjeta || !contraseña) {
         return { exito: false, mensaje: 'Todos los campos son obligatorios' };
     }
-
     const usuarios = obtenerUsuarios();
-
-    // Validar que el usuario no exista
     if (usuarios[usuario]) {
         return { exito: false, mensaje: 'El usuario ya existe' };
     }
-
-    // Validar tarjeta (al menos 13 dígitos)
     if (!/^\d{13,19}$/.test(tarjeta)) {
         return { exito: false, mensaje: 'Tarjeta inválida (debe tener entre 13 y 19 dígitos)' };
     }
-
-    // Crear nuevo usuario
     usuarios[usuario] = new Usuario(usuario, nombre, direccion, tarjeta, contraseña);
     guardarUsuarios(usuarios);
-
     return { exito: true, mensaje: 'Usuario registrado exitosamente' };
 }
 
@@ -157,17 +146,13 @@ function iniciarSesion(usuario, contraseña) {
     if (!usuario || !contraseña) {
         return { exito: false, mensaje: 'Usuario y contraseña son requeridos' };
     }
-
     const usuarios = obtenerUsuarios();
-
     if (!usuarios[usuario]) {
         return { exito: false, mensaje: 'Usuario no encontrado' };
     }
-
     if (usuarios[usuario].contraseña !== contraseña) {
         return { exito: false, mensaje: 'Contraseña incorrecta' };
     }
-
     guardarUsuarioActual(usuario);
     return { exito: true, mensaje: 'Sesión iniciada exitosamente' };
 }
@@ -191,6 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
         renderizarProductos();
     } else {
         mostrarVistaLogin();
+        // ASEGURARNOS DE OCULTAR LA TIENDA AL INICIO
+        ocultarVistaTienda();
     }
 });
 
@@ -209,6 +196,17 @@ function mostrarVistaLogin() {
 // Mostrar vistas de usuario autenticado
 function mostrarVistaTienda() {
     document.getElementById('vista-tienda').classList.remove('oculto');
+    // NUEVO: Mostrar el header y el footer cuando hay sesión
+    document.getElementById('main-header').classList.remove('oculto');
+    document.getElementById('main-footer').classList.remove('oculto');
+}
+
+// NUEVO: Ocultar todas las partes de la tienda (para usar en el logout)
+function ocultarVistaTienda() {
+    document.getElementById('vista-tienda').classList.add('oculto');
+    document.getElementById('main-header').classList.add('oculto');
+    document.getElementById('main-footer').classList.add('oculto');
+    document.getElementById('vista-factura').classList.add('oculto');
 }
 
 // Ocultar vistas de autenticación
@@ -275,7 +273,9 @@ function manejarLogin(event) {
 function manejarLogout() {
     if (confirm('¿Deseas cerrar la sesión?')) {
         cerrarSesion();
-        ocultarVistasAutenticacion();
+        // NUEVO: Nos aseguramos de ocultar todo lo que pertenece a la tienda
+        ocultarVistaTienda();
+        
         mostrarVistaLogin();
         document.getElementById('form-login').reset();
         document.getElementById('panel-carrito').classList.add('oculto');
