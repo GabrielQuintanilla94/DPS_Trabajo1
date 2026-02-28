@@ -44,3 +44,11 @@ El núcleo lógico se divide en clases especializadas:
 
 ---
 
+## 👥 Integrantes:
+
+* **Jonathan Alexander Alberto** - AC200739
+* **Christian Geovanni Centeno** - CS241743
+* **José Alexander Montoya** - MQ252529
+* **Félix Gabriel Quintanilla** - QR230082
+
+---
