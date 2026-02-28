@@ -1,4 +1,4 @@
-# 🛒 Tienda Tu MiniSuper - E-Commerce JS
+# 🛒 Tienda Tu MiniSuper - 
 
 Este es un proyecto académico avanzado de un carrito de compras interactivo desarrollado con **HTML5, CSS3 y JavaScript puro (Vanilla JS)**. El sistema simula una experiencia de comercio electrónico completa, incluyendo autenticación de usuarios, preferencias de visualización y gestión en tiempo real de inventarios.
 
@@ -44,10 +44,3 @@ El núcleo lógico se divide en clases especializadas:
 
 ---
 
-## 🛠️ Cómo Ejecutar la Aplicación de forma Local
-
-Si deseas probar o auditar este código en tu propia computadora:
-
-1. **Clonar el repositorio:**
-   ```bash
-   git clone [https://github.com/gabrielquintanilla94/DPS_Trabajo1.git](https://github.com/gabrielquintanilla94/DPS_Trabajo1.git)
