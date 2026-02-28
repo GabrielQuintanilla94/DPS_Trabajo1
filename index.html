@@ -11,17 +11,23 @@
 <body>
 
     <header id="main-header" class="oculto">
-        <div style="display: flex; align-items: center; gap: 15px;">
+        <div style="display: flex; align-items: center; gap: 20px;">
             <h1>🛒 Tienda Tu MiniSuper</h1>
-            <span id="usuario-actual" style="font-size: 0.9rem; color: #ecf0f1;"></span>
+
+            <div class="badge-usuario">
+                <span class="icono-usuario">👤</span>
+                <span>Hola, <strong id="usuario-actual"></strong></span>
+            </div>
+
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
             <button id="btn-tema" onclick="toggleTema()"
                 style="font-size: 1.5rem; background: none; border: none; cursor: pointer;"
                 title="Cambiar Tema">🌙</button>
             <button id="btn-logout" onclick="manejarLogout()"
-                style="padding: 8px 15px; background: #d32f2f; color: white; border: none; border-radius: 5px; cursor: pointer;">Cerrar
-                sesión</button>
+                style="padding: 8px 15px; background: #d32f2f; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                Cerrar sesión
+            </button>
             <button id="btn-toggle-carrito" onclick="toggleCarrito()">
                 🛒 $<span id="total-header">0.00</span>
             </button>

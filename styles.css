@@ -540,3 +540,36 @@ body.dark-mode .grupo-form input:focus {
 .site-footer a:hover {
     text-decoration: underline;
 }
+
+
+/* =========================================
+   BADGE DE USUARIO 
+   ========================================= */
+.badge-usuario {
+    background-color: #2d6a4f; 
+    color: white;
+    padding: 6px 16px;
+    border-radius: 25px; 
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #52b788;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease;
+}
+
+.badge-usuario:hover {
+    transform: scale(1.05); 
+}
+
+.icono-usuario {
+    font-size: 1.1rem;
+}
+
+
+body.dark-mode .badge-usuario {
+    background-color: #2a2a2a;
+    border-color: #40916c;
+    color: #ecf0f1;
+}

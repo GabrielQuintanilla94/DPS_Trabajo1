@@ -176,7 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderizarProductos();
     } else {
         mostrarVistaLogin();
-        // ASEGURARNOS DE OCULTAR LA TIENDA AL INICIO
         ocultarVistaTienda();
     }
 });
@@ -196,12 +195,11 @@ function mostrarVistaLogin() {
 // Mostrar vistas de usuario autenticado
 function mostrarVistaTienda() {
     document.getElementById('vista-tienda').classList.remove('oculto');
-    // Mostrar el header y el footer cuando hay sesión
     document.getElementById('main-header').classList.remove('oculto');
     document.getElementById('main-footer').classList.remove('oculto');
 }
 
-//  Ocultar todas las partes de la tienda (para usar en el logout)
+// Ocultar todas las partes de la tienda
 function ocultarVistaTienda() {
     document.getElementById('vista-tienda').classList.add('oculto');
     document.getElementById('main-header').classList.add('oculto');
@@ -259,7 +257,6 @@ function manejarLogin(event) {
         alert(resultado.mensaje);
         document.getElementById('form-login').reset();
 
-        // Mostrar tienda
         ocultarVistasAutenticacion();
         mostrarVistaTienda();
         actualizarNombreUsuario(usuario);
@@ -273,7 +270,6 @@ function manejarLogin(event) {
 function manejarLogout() {
     if (confirm('¿Deseas cerrar la sesión?')) {
         cerrarSesion();
-        //  Nos aseguramos de ocultar todo lo que pertenece a la tienda
         ocultarVistaTienda();
         
         mostrarVistaLogin();
@@ -296,7 +292,7 @@ let categoriaActual = 'Todas';
 
 // Función para filtrar y mostrar productos
 function renderizarProductos(categoriaFiltro = categoriaActual, terminoBusqueda = document.getElementById('buscador') ? document.getElementById('buscador').value : '') {
-    categoriaActual = categoriaFiltro; // Guardar la categoría seleccionada
+    categoriaActual = categoriaFiltro;
     const contenedor = document.getElementById('lista-productos');
     contenedor.innerHTML = '';
 
@@ -313,14 +309,22 @@ function renderizarProductos(categoriaFiltro = categoriaActual, terminoBusqueda 
     }
 
     productosAMostrar.forEach(prod => {
+        // --- AQUÍ ESTÁ LA MAGIA PARA ACTUALIZAR EL STOCK EN TIEMPO REAL ---
+        // Buscamos si este producto ya está en el carrito
+        const itemEnCarrito = miCarrito.items.find(item => item.id === prod.id);
+        const cantidadEnCarrito = itemEnCarrito ? itemEnCarrito.cantidad : 0;
+        
+        // Calculamos cuánto stock real queda disponible visualmente
+        const stockDisponible = prod.stock - cantidadEnCarrito;
+
         const card = document.createElement('div');
         card.classList.add('card-producto');
 
-        const stockHTML = prod.stock > 0
-            ? `<p class="stock-info">Disponibles: ${prod.stock}</p>`
+        const stockHTML = stockDisponible > 0
+            ? `<p class="stock-info">Disponibles: ${stockDisponible}</p>`
             : `<p class="sin-stock" style="color:red; font-weight:bold;">AGOTADO</p>`;
 
-        const btnDisabled = prod.stock === 0 ? 'disabled' : '';
+        const btnDisabled = stockDisponible === 0 ? 'disabled' : '';
 
         card.innerHTML = `
             <img src="${prod.imagen}" alt="${prod.nombre}">
@@ -333,7 +337,7 @@ function renderizarProductos(categoriaFiltro = categoriaActual, terminoBusqueda 
             </div>
 
             <div class="card-controles">
-                <input type="number" id="cant-${prod.id}" value="1" min="1" max="${prod.stock}">
+                <input type="number" id="cant-${prod.id}" value="1" min="1" max="${stockDisponible}">
                 <button class="btn-agregar" onclick="manejadorAgregar(${prod.id})" ${btnDisabled}>
                     Agregar
                 </button>
@@ -357,7 +361,6 @@ function manejadorAgregar(id) {
     // Validaciones
     if (isNaN(cantidadSolicitada) || cantidadSolicitada <= 0) return alert("Cantidad inválida");
 
-    // Validar contra stock disponible
     const itemExistente = miCarrito.items.find(item => item.id === id);
     const cantidadEnCarrito = itemExistente ? itemExistente.cantidad : 0;
 
@@ -367,6 +370,9 @@ function manejadorAgregar(id) {
 
     miCarrito.agregar(producto, cantidadSolicitada);
     renderizarCarrito();
+    
+    // NUEVO: Volvemos a dibujar los productos para que el número de stock baje
+    renderizarProductos();
 }
 
 function renderizarCarrito() {
@@ -415,6 +421,9 @@ function renderizarCarrito() {
 function eliminarDelCarrito(index) {
     miCarrito.eliminar(index);
     renderizarCarrito();
+    
+    // NUEVO: Volvemos a dibujar los productos para que el número de stock suba si quitamos un item
+    renderizarProductos();
 }
 
 // Confirmar compra y manejar inventario
@@ -429,6 +438,7 @@ function confirmarCompra() {
     tbody.innerHTML = '';
 
     miCarrito.items.forEach(item => {
+        // En este punto, el stock SÍ se descuenta de forma definitiva de la base de datos
         const productoOriginal = inventarioDB.find(p => p.id === item.id);
         if (productoOriginal) {
             productoOriginal.stock -= item.cantidad;
@@ -457,6 +467,15 @@ function confirmarCompra() {
 
 // Seguir comprando
 function reiniciarTienda() {
+    //  Restaurar el stock simulado antes de vaciar el carrito
+    miCarrito.items.forEach(item => {
+        const productoOriginal = inventarioDB.find(p => p.id === item.id);
+        if (productoOriginal) {
+            productoOriginal.stock += item.cantidad; // Devolvemos el stock al inventario
+        }
+    });
+
+    
     miCarrito.vaciar();
 
     // Limpiar el buscador visualmente y en la lógica
@@ -464,7 +483,8 @@ function reiniciarTienda() {
     if (inputBuscador) inputBuscador.value = '';
 
     renderizarCarrito();
-    // Volvemos a renderizar 'Todas' las categorías sin texto de búsqueda
+    
+    // Volvemos a renderizar 'Todas' las categorías para resetear la vista con el stock restaurado
     renderizarProductos('Todas', '');
 
     document.getElementById('vista-factura').classList.add('oculto');
@@ -473,14 +493,12 @@ function reiniciarTienda() {
 
 // --- FUNCIÓN DE TEMA OSCURO ---
 function toggleTema() {
-    // Alternar la clase 'dark-mode' en el body
     document.body.classList.toggle('dark-mode');
 
-    // Cambiar el ícono del botón
     const btnTema = document.getElementById('btn-tema');
     if (document.body.classList.contains('dark-mode')) {
-        btnTema.innerText = '☀️'; // Sol cuando está oscuro
+        btnTema.innerText = '☀️'; 
     } else {
-        btnTema.innerText = '🌙'; // Luna cuando está claro
+        btnTema.innerText = '🌙'; 
     }
 }
