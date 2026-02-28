@@ -1,6 +1,6 @@
-# 🛒 Tienda Tu MiniSuper - Carrito de Compras JS
+# 🛒 Tienda Tu MiniSuper - E-Commerce JS
 
-Este es un proyecto académico de un carrito de compras interactivo desarrollado con **HTML5, CSS3 y JavaScript puro (Vanilla JS)**. El sistema simula la experiencia de compra en un supermercado, permitiendo seleccionar productos, gestionar un carrito de compras y generar una factura detallada.
+Este es un proyecto académico avanzado de un carrito de compras interactivo desarrollado con **HTML5, CSS3 y JavaScript puro (Vanilla JS)**. El sistema simula una experiencia de comercio electrónico completa, incluyendo autenticación de usuarios, preferencias de visualización y gestión en tiempo real de inventarios.
 
 ---
 
@@ -11,45 +11,43 @@ Puedes probar la aplicación funcionando directamente desde GitHub Pages en el s
 
 ---
 
-## ⚙️ Funcionalidades Principales
+## ⭐ Características y Funcionalidades Nuevas
 
-El proyecto cumple con todos los requerimientos solicitados:
-1. **Catálogo Dinámico:** Muestra una lista de productos divididos por categorías (Abarrotes, Limpieza, Lácteos) con sus respectivos precios, imágenes y control de stock real.
-2. **Gestión del Carrito:** Permite agregar y eliminar productos. Valida que no se ingresen cantidades negativas ni se exceda el inventario disponible.
-3. **Panel Flotante (UI/UX):** El carrito se visualiza de forma moderna como un panel lateral flotante que actualiza los totales en tiempo real.
-4. **Facturación e Impuestos:** Al generar la factura, el sistema calcula el subtotal, aplica automáticamente el IVA (13%) y muestra el gran total a pagar.
-5. **Control de Inventario:** Al confirmar una compra, los productos se descuentan automáticamente del inventario global.
-6. **Continuidad de Compra:** Permite al usuario "seguir comprando" después de ver su factura, reiniciando el carrito pero conservando el nuevo estado del inventario.
+El proyecto ha sido escalado para incluir funcionalidades premium de UI/UX y lógica de negocio:
 
----
-
-## 📂 Estructura del Código
-
-El código está modularizado aplicando buenas prácticas y Programación Orientada a Objetos (POO):
-
-### 1. `index.html`
-Contiene la estructura semántica de la página. Está dividido en:
-* **Header:** Contiene el título y el botón interactivo que muestra el resumen del carrito.
-* **Main (Tienda):** Contiene los botones de filtrado por catálogo y el contenedor `grid` donde se inyectan dinámicamente las tarjetas de los productos.
-* **Panel Carrito:** Un `div` flotante que muestra la lista de items a comprar.
-* **Sección Factura:** Inicialmente oculta (`display: none`), se activa mediante JavaScript para mostrar la tabla de la compra confirmada.
-
-### 2. `styles.css`
-Maneja toda la presentación visual, garantizando una interfaz limpia y simétrica:
-* Uso de **Flexbox** y **CSS Grid** para la alineación de las tarjetas de productos, logrando que todas tengan exactamente el mismo tamaño.
-* Estilos interactivos (`hover`, `transitions`) en botones y tarjetas para mejorar la experiencia de usuario (UX).
-* Diseño **Responsivo** básico para adaptarse a dispositivos móviles.
-
-### 3. `app.js`
-Es el motor lógico de la aplicación. Se divide en dos partes fundamentales:
-* **Modelo de Datos (POO):**
-    * `class Producto`: Define la estructura de cada artículo (id, nombre, precio, imagen, stock, categoría).
-    * `class Carrito`: Encapsula toda la lógica de compras. Contiene métodos para `agregar()`, `eliminar()`, `vaciar()` y `obtenerTotales()` (calculando el IVA).
-* **Lógica de Interfaz y Eventos:**
-    * Funciones de renderizado como `renderizarProductos(categoria)` y `renderizarCarrito()` que actualizan el DOM sin recargar la página.
-    * Validaciones estrictas de input de usuario e inventario en `manejadorAgregar()`.
-    * Manipulación del DOM para intercambiar vistas (Tienda vs Factura) en la función `confirmarCompra()`.
+1. **🔐 Sistema de Autenticación (Login/Registro):** * Flujo completo de creación de cuenta y validación de credenciales simulado usando `localStorage` para la persistencia de datos.
+   * La tienda está protegida y oculta hasta que el usuario inicia sesión.
+   * "Badge" de perfil de usuario dinámico en el encabezado.
+2. **🌙 Modo Oscuro (Dark Mode):** * Botón interactivo (☀️/🌙) que cambia el tema de toda la aplicación web de forma instantánea manipulando el DOM y clases CSS.
+3. **📦 Control de Inventario en Tiempo Real:** * Al agregar un producto al carrito, el stock disponible mostrado en la tarjeta disminuye en el instante. 
+   * Al vaciar el carrito o seguir comprando, el inventario se restaura o actualiza de manera impecable.
+4. **🔍 Buscador Dinámico y Filtros:** * Barra de búsqueda que permite filtrar productos por nombre en tiempo real, combinable con los botones de filtrado por categoría (Abarrotes, Limpieza, Lácteos, etc.).
+5. **💳 Panel Flotante y Facturación:** * Carrito tipo "Off-canvas" (panel lateral flotante) moderno.
+   * Cálculo automático de Subtotal, IVA (13%) y Total a pagar, reflejados en un comprobante final de compra.
 
 ---
 
+## 📂 Estructura del Código y POO
 
+El código está fuertemente modularizado, aplicando Programación Orientada a Objetos (POO):
+
+### 1. Modelo de Datos (`app.js`)
+El núcleo lógico se divide en clases especializadas:
+* `class Usuario`: Gestiona la información de los clientes (credenciales, tarjeta, nombre).
+* `class Producto`: Define la estructura del catálogo (id, nombre, precio, stock, imagen, categoría).
+* `class Carrito`: Encapsula los métodos del negocio (`agregar()`, `eliminar()`, `vaciar()`, `obtenerTotales()`).
+
+### 2. Presentación e Interfaz (`index.html` & `styles.css`)
+* **Diseño Simétrico:** Uso de CSS Flexbox y CSS Grid para que las tarjetas de productos mantengan proporciones idénticas sin importar la longitud del texto.
+* **Aislamiento de Vistas:** Mediante manipulación de clases (`.oculto`), se logra una arquitectura de tipo *Single Page Application (SPA)*, alternando entre Login, Registro, Tienda y Factura sin recargar el navegador.
+* **Responsividad:** Adaptación a dispositivos móviles para asegurar una navegación fluida en cualquier pantalla.
+
+---
+
+## 🛠️ Cómo Ejecutar la Aplicación de forma Local
+
+Si deseas probar o auditar este código en tu propia computadora:
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone [https://github.com/gabrielquintanilla94/DPS_Trabajo1.git](https://github.com/gabrielquintanilla94/DPS_Trabajo1.git)
